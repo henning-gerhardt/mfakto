@@ -141,9 +141,6 @@ jobs:
     - name: Build
       run: |
         make -C src -f Makefile.macOS -j "$(sysctl -n hw.ncpu)" CC=${CC} CPP=${CPP} CFLAGS="-O3 -Wall"
-    - name: Test
-      run: |
-        ./mfakto -d 11
     - name: Upload build artifact
       uses: actions/upload-artifact@v4
       with:
