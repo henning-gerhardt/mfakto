@@ -138,12 +138,9 @@ jobs:
       CPP: clang++
     steps:
     - uses: actions/checkout@v4
-    - name: Setup
-      run: |
-        brew install pocl
     - name: Build
       run: |
-        make -C src -f Makefile.macOS -j "$(sysctl -n hw.ncpu)" CC=${CC} CPP=${CPP} CFLAGS="-O3 -Wall $(pkg-config --cflags pocl)" LDFLAGS="$(pkg-config --libs pocl)"
+        make -C src -f Makefile.macOS -j "$(sysctl -n hw.ncpu)" CC=${CC} CPP=${CPP} CFLAGS="-O3 -Wall"
     - name: Test
       run: |
         ./mfakto -d 11
