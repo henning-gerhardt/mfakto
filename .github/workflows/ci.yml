@@ -138,7 +138,19 @@ jobs:
       CPP: clang++
     steps:
     - uses: actions/checkout@v4
-    - name: Build
+    - name: Setup
+      run: |
+        brew install pocl
+    - name: Build GitHub development version
+      run: |
+        make -C src -f Makefile.macOS -j "$(sysctl -n hw.ncpu)" CC=${CC} CPP=${CPP} CFLAGS="-O3 -Wall $(pkg-config --cflags pocl)" LDFLAGS="$(pkg-config --libs pocl)"
+    - name: Test
+      run: |
+        ./mfakto -d 11
+    - name: Cleanup build for user artifact
+      run: |
+        make -C src clean
+    - name: Build user artifact without pocl dependency
       run: |
         make -C src -f Makefile.macOS -j "$(sysctl -n hw.ncpu)" CC=${CC} CPP=${CPP} CFLAGS="-O3 -Wall"
     - name: Upload build artifact
